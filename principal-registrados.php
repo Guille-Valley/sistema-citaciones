@@ -17,7 +17,7 @@
     <div id="mes"></div>
     <button onclick="cambiarMes(sumarMes)">Mes adelante</button>
     <form action="reservar-dia.php" method="post" id="calendario">
-        <input type="submit" value="Elegir Fecha">
+        <input type="submit" name="reservarFecha" value="Elegir Fecha">
     </form>
 
 

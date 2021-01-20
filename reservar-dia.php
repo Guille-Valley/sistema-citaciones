@@ -18,7 +18,7 @@
 
     <?php
 
-    if (isset($_POST['diaDelMes'])) {
+    if (isset($_POST['reservarFecha'])) {
 
         // Guardamos en la variable $dia el value del name = diaDelMes.
         $dia = $_POST['diaDelMes'];

@@ -23,9 +23,8 @@
             <div class="col-md-auto">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Launch demo modal
+                    Iniciar sesi&oacute;n
                 </button>
-
                 <!-- Modal INICIO DE SESIÓN o REGISTRO-->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -36,37 +35,25 @@
                             </div>
                             <div class="modal-body">
 
-                            <!-- FORMULARIO INICIO DE SESIÓN -->
+                                <!-- FORMULARIO INICIO DE SESIÓN -->
                                 <form action="funciones_bd.php" name="inicioSesion" method="post">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <label for="correo" class="form-label">Direcci&oacute;n de correo</label>
+                                        <input type="email" class="form-control" name="correo" id="correo" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <label for="contrasena" class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" name="contrasena" id="contrasena">
                                     </div>
-                                    
+
                                     <button type="submit" name="inicioSesion" class="btn btn-primary">Iniciar sesi&oacute;n</button>
+
                                     <div id="emailHelp" class="form-text">¡Registrate primero <a href="registro.php">Aqu&iacute;!</a></div>
                                 </form>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!--                 <button class="btn btn-outline-warning">
-                    <a class="fs-4" href="acceso.php">Iniciar sesi&oacute;n</a>
-                    <p class="mt-2">
-                        <a class=" fw-lighter fs-6" href="registro.php">¿Eres nuevo? ¡Registrate!</a>
-                    </p>
-                </button> -->
             </div>
         </div>
     </div>

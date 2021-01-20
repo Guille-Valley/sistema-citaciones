@@ -46,8 +46,8 @@
 
             <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
             <li class="nav-item">
-                <form action="acceso.php" method="post">
-                    <input type="submit" name="cerrar_sesion" value="Cerrar Sesi&oacute;n">
+                <form action="funciones_bd.php" method="post">
+                    <input type="submit" name="cerrarSesion" value="Cerrar Sesi&oacute;n">
                 </form>
             </li>
         </ul>
