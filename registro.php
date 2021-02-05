@@ -13,8 +13,11 @@
 
 <body>
 
+<div class="container mt-5">
+<h3>Rellena el formulario de registro:</h3>
     <!-- FORMULARIO DE REGISTRO -->
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="registro" method="get">
+    <form action="includes/funciones_bd.php" name="registrar_usuario" method="POST">
+        <input type="hidden" name="nombre_funcion" value="registrar_usuario">
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" name="nombre" id="nombre" aria-describedby="emailHelp">
@@ -31,17 +34,18 @@
             <label for="contrasena" class="form-label">Contraseña</label>
             <input type="password" class="form-control" name="contrasena" id="contrasena">
         </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Tel&eacute;fono</label>
+            <input type="number" class="form-control" name="telefono" id="telefono">
+        </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Direcci&oacute;n</label>
+            <input type="text" class="form-control" name="direccion" id="direccion">
+        </div>
 
-        <button type="submit" name="registrarUsuario" class="btn btn-primary">Registrarse</button>
-
+        <button type="submit" class="btn btn-primary">Registrarse</button>
     </form>
-
-    <?php
-
-    if (isset($_POST['registrarUsuario'])) {
-    }
-
-    ?>
+</div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

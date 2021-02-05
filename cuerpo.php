@@ -14,8 +14,9 @@
 <body>
 
     <?php
-
+    // MENU - - - - - - - - - - - - - - - - - - - -
     require_once 'menu.php'
+
     ?>
 
     <div class="container-fluid mt-5">
@@ -36,7 +37,8 @@
                             <div class="modal-body">
 
                                 <!-- FORMULARIO INICIO DE SESIÓN -->
-                                <form action="funciones_bd.php" name="inicioSesion" method="post">
+                                <form action="funciones_bd.php" name="inicio_sesion" method="post">
+                                    <input type="hidden" name="nombre_funcion" value="inicio_sesion">
                                     <div class="mb-3">
                                         <label for="correo" class="form-label">Direcci&oacute;n de correo</label>
                                         <input type="email" class="form-control" name="correo" id="correo" aria-describedby="emailHelp">
@@ -46,8 +48,9 @@
                                         <input type="password" class="form-control" name="contrasena" id="contrasena">
                                     </div>
 
-                                    <button type="submit" name="inicioSesion" class="btn btn-primary">Iniciar sesi&oacute;n</button>
-
+                                    <button type="submit" class="btn btn-primary">Iniciar sesi&oacute;n</button>
+                                    
+                                    <!-- LINK DE REGISTRO -->
                                     <div id="emailHelp" class="form-text">¡Registrate primero <a href="registro.php">Aqu&iacute;!</a></div>
                                 </form>
                             </div>

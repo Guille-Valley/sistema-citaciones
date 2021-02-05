@@ -46,9 +46,9 @@
 
         include ('conexion.php');
 
-        $genero = $_POST['genero'];
+        /*$genero = $_POST['genero'];
     
-        /* // nombre contrasena etc. son los nombres de los campos de la BBDD y con el =:minombre, asociamos mas tarde el valor correcto evitando una posible inyección.
+        // nombre contrasena etc. son los nombres de los campos de la BBDD y con el =:minombre, asociamos mas tarde el valor correcto evitando una posible inyección.
         $sql = "INSERT INTO usuarios (nombre, contrasena, email, edad, fecha_nacimiento, direccion, codigo_postal, provincia, genero) VALUES (:minombre, :micontrasena, :miemail, :miedad, :mifecha_nacimiento, :midireccion, :micodigo_postal, :miprovincia, :migenero)";
         $resultado = $base->prepare($sql);
         
