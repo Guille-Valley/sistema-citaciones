@@ -37,7 +37,7 @@
                             <div class="modal-body">
 
                                 <!-- FORMULARIO INICIO DE SESIÓN -->
-                                <form action="funciones_bd.php" name="inicio_sesion" method="post">
+                                <form action="includes/funciones_bd.php" name="inicio_sesion" method="post">
                                     <input type="hidden" name="nombre_funcion" value="inicio_sesion">
                                     <div class="mb-3">
                                         <label for="correo" class="form-label">Direcci&oacute;n de correo</label>
@@ -49,7 +49,7 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Iniciar sesi&oacute;n</button>
-                                    
+
                                     <!-- LINK DE REGISTRO -->
                                     <div id="emailHelp" class="form-text">¡Registrate primero <a href="registro.php">Aqu&iacute;!</a></div>
                                 </form>

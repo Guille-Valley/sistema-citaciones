@@ -4,5 +4,7 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"intelephense.diagnostics.undefinedFunctions": false
+	}
 }

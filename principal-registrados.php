@@ -13,7 +13,9 @@
 
 <body>
     <?php
-    session_start();
+
+    // MENU - - - - - - - - - - - - - - - - - - - -
+    require_once 'menu.php';
 
     if (isset($_SESSION['usuario'])) {
 

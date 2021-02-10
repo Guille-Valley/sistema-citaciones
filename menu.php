@@ -43,7 +43,8 @@ if (!isset($_SESSION['usuario'])) {
 
                     <li class="nav-item"><a class="nav-link" href="#">Perfil</a></li>
                     <li class="nav-item">
-                        <form action="funciones_bd.php" method="post">
+                        <form action="includes/funciones_bd.php" method="post">
+                            <input type="hidden" name="nombre_funcion" value="cerrar_sesion">
                             <input type="submit" name="cerrar_sesion" value="Cerrar Sesi&oacute;n">
                         </form>
                     </li>

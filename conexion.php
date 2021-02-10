@@ -6,26 +6,13 @@ $nombreUsuario = "root";
 $password = "";
 $db = "taller_bd";
 
+// Conexión a la BBDD
 $conexion = new mysqli($servidor, $nombreUsuario, $password, $db);
 
-// Con la -> accedemos a los metodos del objeto.
-// Como el . (punto) en otros lenguajes de programación.
-if($conexion -> connect_error){
-    die("Conexión fallida: " . $conexion -> connect_error);
+// Verificamos conexión
+if ($conexion->connect_errno) {
+    echo "Error: Fallo al conectarse a MySQL debido a: \n";
+    echo "Errno: " . $conexion->connect_errno . "\n";
+    echo "Error: " . $conexion->connect_error . "\n";
+    exit;
 }
-
-
-
-
-/*     try {
-        // Conexion con la BBDD almacenada en la variable $base
-        $base = new PDO('mysql:host=localhost; dbname=citas_taller', 'root', '');
-        // Atributos de la conexion para tratar excepciones
-        $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        //$base->exec();
-    } catch (Exception $e) {
-        die("Error" . $e->getMessage());
-        echo "Línea del error" . $e->getLine();
-    }
- */
