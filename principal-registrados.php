@@ -15,6 +15,7 @@
     <?php
 
     // MENU - - - - - - - - - - - - - - - - - - - -
+    // MENU incluye - > session_start
     require_once 'menu.php';
 
     if (isset($_SESSION['usuario'])) {
@@ -24,11 +25,13 @@
         <button onclick="cambiarMes(restarMes)">Mes atr&aacute;s</button>
         <div id="mes"></div>
         <button onclick="cambiarMes(sumarMes)">Mes adelante</button>
-        <form action="reservar-dia.php" method="post" id="calendario">
+        
+        <!-- FORMULARIO RESERVA DE DIA -->
+        <form action="includes/reservar-dia.php" method="post" id="calendario">
             <input type="submit" name="reservarFecha" value="Elegir Fecha">
         </form>
 
-
+<!-- CALENDARIO -->
         <script>
             window.onload = function() {
                 // Invocamos la siguiente función para ver en pantalla el calendario del mes actual.

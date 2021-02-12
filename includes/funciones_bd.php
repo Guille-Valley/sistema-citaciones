@@ -34,10 +34,11 @@ function inicioSesion()
         $consulta->bind_param("ss", $correo, $contrasena);
         $consulta->execute();
 
-        // Conocer si devuelve una coincidencia de inicio de sesión.
-        $resultado = $consulta->get_result();
+        // Test si devuelve alguna fila.
+        $consulta->store_result();
+        $existe_conexion = $consulta->num_rows;
 
-        if ($resultado) {
+        if ($existe_conexion != 0) {
             session_start();
             // Adjudicamos usuario a la sesión
             $_SESSION['usuario'] = $correo;
@@ -56,6 +57,7 @@ function inicioSesion()
         <a href="../index.php">Vovler</a>
 <?php
     }
+    $consulta->close();
     $conexion->close();
 }
 
