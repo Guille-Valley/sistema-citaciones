@@ -12,6 +12,8 @@ if (isset($_POST['nombre_funcion'])) {
         case 'registrar_usuario':
             registrarUsuario();
             break;
+        case 'confirmar_fecha':
+            confirmarFecha();
     }
 }
 
@@ -19,7 +21,7 @@ if (isset($_POST['nombre_funcion'])) {
 function inicioSesion()
 {
 
-    include('../conexion.php');
+    include('conexion.php');
 
     $correo = $_POST['correo'];
     $contrasena = $_POST['contrasena'];
@@ -43,18 +45,18 @@ function inicioSesion()
             // Adjudicamos usuario a la sesión
             $_SESSION['usuario'] = $correo;
 
-            header("Location:../principal-registrados.php");
+            header("Location:principal-registrados.php");
         } else {
             echo "Cuenta no registrada";
 ?>
-            <a href="../index.php">Vovler</a>
+            <a href="index.php">Vovler</a>
         <?php
 
         }
     } else {
         echo "Cuenta no registrada";
         ?>
-        <a href="../index.php">Vovler</a>
+        <a href="index.php">Vovler</a>
 <?php
     }
     $consulta->close();
@@ -73,30 +75,54 @@ function cerrarSesion()
     session_destroy();
 
     // Redirect to home
-    header("Location: ../index.php");
+    header("Location:index.php");
     exit();
 }
 
 // REGISTRAR NUEVO USUARIO - - - - - - - - - - - - - - - - - - - -
 function registrarUsuario()
 {
-    include('../conexion.php');
-
+    include('conexion.php');
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
     $contrasena = $_POST['contrasena'];
     $telefono = $_POST['telefono'];
     $direccion = $_POST['direccion'];
-
     // Almacena la consulta SQL en una variable.
     $sql = "INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, direccion) VALUES (?,?,?,?,?,?)";
     // Prepara una sentencia SQL para su ejecución.
     $consulta = $conexion->prepare($sql);
     // Agrega variables a una sentencia preparada como parámetros. 
+    $consulta->bind_param("ssssis", $nombre, $apellido, $correo, $contrasena, $telefono, $direccion);
+    // Ejecuta la consulta a la BBDD.
+    $consulta->execute();
+    // Cierra sentencia y conexión.
+    $consulta->close();
+    $conexion->close();
+    // Redirige a la página deseada.
+    header("Location:index.php");
+}
+
+// CONFIRMAR FECHA - - - - - - - - - - - - - - - - - - - -
+function confirmarFecha()
+{
+    include('conexion.php');
+
+    $diaMes = $_POST['dia'];
+    $mes = $_POST['numeroMes'];
+    $fecha = $diaMes . " de " . $mes;
+
+    // echo "PISTA -> " . $diaMes . $mes . $correo . "hola";
+
+    // Almacena la consulta SQL en una variable.
+    $sql = "INSERT INTO calendario (fecha) VALUES (?)";
+    // Prepara una sentencia SQL para su ejecución.
+    $consulta = $conexion->prepare($sql);
+    // Agrega variables a una sentencia preparada como parámetros. 
     // Las "s" hacen referencia a que vamos a pasar un String, cadenas. 
     // Las "i", a int, enteros.
-    $consulta->bind_param("ssssis", $nombre, $apellido, $correo, $contrasena, $telefono, $direccion);
+    $consulta->bind_param("s", $fecha);
     // Ejecuta la consulta a la BBDD.
     $consulta->execute();
     // Cierra sentencia y conexión.
@@ -104,12 +130,13 @@ function registrarUsuario()
     $conexion->close();
 
     // Redirige a la página deseada.
-    header("Location:../index.php");
+    header("Location:index.php");
 }
+
 
 function getCalendario()
 {
-    include('../conexion.php');
+    include('conexion.php');
 
     if ($consulta = $conexion->prepare("SELECT dia, mes FROM calendario ORDER BY id_mes")) {
 
