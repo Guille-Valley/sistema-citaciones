@@ -39,7 +39,11 @@ if (isset($_SESSION['usuario'])) {
                         <input type="hidden" name="nombre_funcion" value="confirmar_fecha">
                         <input type="hidden" name="dia" value="<?php echo $dia ?>">
                         <input type="hidden" name="numeroMes" value="<?php echo $mesesArray[$key] ?>">
-                        <input type="hidden" name="correo" value="<?php echo $_SESSION['usuario'] ?>">
+                        
+                        <label for="id_vehiculo" class="form-label">Matrícula del vehículo:</label>
+                        <input type="text" name="id_vehiculo">
+                        <input type="hidden" name="id_usuario" value="<?php echo $_SESSION['usuario'] ?>">
+
                         <button class="col-1 btn btn-outline-success m-2" type="submit">Confirmar</button>
                     </form>
 

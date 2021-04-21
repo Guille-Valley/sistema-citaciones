@@ -12,15 +12,14 @@ if (isset($_POST['enviar'])) {
         $nombre = $_POST['nombre'];
         $asunto = "Mensaje enviado";
         $mensaje = $nombre . " escribió lo siguiente:" . "\n\n" . $_POST['mensaje'];
-        
 
         $headers =  'MIME-Version: 1.0' . "\r\n";
         $headers .= "De: <' . $from . '> \r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-
         mail($to, $asunto, $mensaje, $headers);
-        // echo '<script type="text/javascript"> alert("Mensaje enviado. Gracias "' . $nombre . '", me pondré en contacto lo antes posible."); </script>';
+        //mail("vision.valley.87@gmail.com","Answer","Hope You Vote My Answer Up","From: me@you.com");
+        echo '<script type="text/javascript"> alert("Mensaje enviado. Gracias "' . $nombre . '", me pondré en contacto lo antes posible."); </script>';
     } else {
         echo '<script type="text/javascript"> alert("Debe acertar las condiciones de uso y privacidad"); </script>';
     }
@@ -30,7 +29,7 @@ if (isset($_POST['enviar'])) {
     <div class="row justify-content-md-center">
         <div class="col-3">
 
-            <form action="#formulario-contacto" method="post">
+            <form action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="post">
                 <div class="mb-3">
                     <label class="form-label" for="nombre">Nombre</label>
                     <input class="form-control" type="text" name="nombre">

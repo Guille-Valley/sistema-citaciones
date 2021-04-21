@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <title>Taller Andr&eacute;s Bueno</title>
 
+    <style>
+        img.opacity {
+            opacity: 0.5;
+        }
+    </style>
+
+
 </head>
 
 <body>

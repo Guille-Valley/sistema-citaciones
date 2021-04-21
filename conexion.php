@@ -4,7 +4,7 @@
 $servidor = "localhost";
 $nombreUsuario = "root";
 $password = "";
-$db = "taller_bd";
+$db = "sistemacitas";
 
 // Conexión a la BBDD
 $conexion = new mysqli($servidor, $nombreUsuario, $password, $db);

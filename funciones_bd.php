@@ -27,7 +27,7 @@ function inicioSesion()
     $contrasena = $_POST['contrasena'];
 
     // Consulta preparada
-    $sql = "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?";
+    $sql = "SELECT id FROM usuario WHERE correo = ? AND contrasena = ?";
 
     $consulta = $conexion->prepare($sql);
 
@@ -37,13 +37,35 @@ function inicioSesion()
         $consulta->execute();
 
         // Test si devuelve alguna fila.
-        $consulta->store_result();
-        $existe_conexion = $consulta->num_rows;
+        //$consulta->store_result();
 
-        if ($existe_conexion != 0) {
+        $resultado = $consulta->get_result();   // Obtenemos un objeto
+        if ($resultado->num_rows > 0) {
+
             session_start();
-            // Adjudicamos usuario a la sesión
-            $_SESSION['usuario'] = $correo;
+
+            while ($dato = $resultado->fetch_assoc()) {
+                echo $dato['id'];
+                $_SESSION['usuario'] = $dato['id'];
+            }
+
+
+            //$existe_conexion = $consulta->num_rows;
+
+            // if ($existe_conexion != 0) {
+            //session_start();
+
+
+
+            // Adjudicamos el id del usuario a la sesión.
+            // $consulta->fetch_assoc();
+            //echo " PISTA 2 " . $actor['id'];
+
+            //$_SESSION['usuario'] = $consulta;
+
+
+
+
 
             header("Location:principal-registrados.php");
         } else {
@@ -90,7 +112,7 @@ function registrarUsuario()
     $telefono = $_POST['telefono'];
     $direccion = $_POST['direccion'];
     // Almacena la consulta SQL en una variable.
-    $sql = "INSERT INTO usuarios (nombre, apellido, correo, contrasena, telefono, direccion) VALUES (?,?,?,?,?,?)";
+    $sql = "INSERT INTO usuario (nombre, apellido, correo, contrasena, telefono, direccion) VALUES (?,?,?,?,?,?)";
     // Prepara una sentencia SQL para su ejecución.
     $consulta = $conexion->prepare($sql);
     // Agrega variables a una sentencia preparada como parámetros. 
@@ -112,17 +134,19 @@ function confirmarFecha()
     $diaMes = $_POST['dia'];
     $mes = $_POST['numeroMes'];
     $fecha = $diaMes . " de " . $mes;
+    $id_usuario = $_POST['id_usuario'];
+    $id_vehiculo = $_POST['id_vehiculo'];
 
     // echo "PISTA -> " . $diaMes . $mes . $correo . "hola";
 
     // Almacena la consulta SQL en una variable.
-    $sql = "INSERT INTO calendario (fecha) VALUES (?)";
+    $sql = "INSERT INTO cita (fecha, id_usuario, id_vehiculo) VALUES (?,?,?)";
     // Prepara una sentencia SQL para su ejecución.
     $consulta = $conexion->prepare($sql);
     // Agrega variables a una sentencia preparada como parámetros. 
     // Las "s" hacen referencia a que vamos a pasar un String, cadenas. 
     // Las "i", a int, enteros.
-    $consulta->bind_param("s", $fecha);
+    $consulta->bind_param("s,i,s", $fecha, $id_usuario, $id_vehiculo);
     // Ejecuta la consulta a la BBDD.
     $consulta->execute();
     // Cierra sentencia y conexión.
@@ -131,6 +155,24 @@ function confirmarFecha()
 
     // Redirige a la página deseada.
     header("Location:index.php");
+}
+// RECUPERAR NOMBRE - - - - - - - - - - - - - - - - - - - -
+function recuperarDato($id)
+{
+    include('conexion.php');
+
+    $sql = "SELECT * FROM usuario WHERE id = ?";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bind_param("i", $id);
+    $consulta->execute();
+
+    $resultado = $consulta->get_result();
+   
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
+
 }
 
 

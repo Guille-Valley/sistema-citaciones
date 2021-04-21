@@ -1,5 +1,23 @@
-<footer>
-<p>Hola desde el pie.</p>
+<footer class="mt-5">
+    <hr>
+    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col">
+                <p>Calle sin Nombre, número 75</p>
+                <p>Código postal xxxxxx</p>
+                <p>Todos los derechos reservados</p>
+            </div>
+            <div class="col">
+                <p><i class="fab fa-facebook-square"></i></p>
+                <p> <i class="fab fa-instagram-square"></i></p>
+                <p> <i class="fab fa-whatsapp-square">+34-xxx-xx-xx-xx</i></p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
 </footer>
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
