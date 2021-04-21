@@ -14,6 +14,8 @@ if (isset($_POST['nombre_funcion'])) {
             break;
         case 'confirmar_fecha':
             confirmarFecha();
+        case 'cambiar_datos':
+            cambiarDatos();
     }
 }
 
@@ -36,36 +38,14 @@ function inicioSesion()
         $consulta->bind_param("ss", $correo, $contrasena);
         $consulta->execute();
 
-        // Test si devuelve alguna fila.
-        //$consulta->store_result();
-
         $resultado = $consulta->get_result();   // Obtenemos un objeto
-        if ($resultado->num_rows > 0) {
-
+        if ($resultado->num_rows > 0) { //INICIAMOS SESIÓN.
+            
             session_start();
 
             while ($dato = $resultado->fetch_assoc()) {
-                echo $dato['id'];
-                $_SESSION['usuario'] = $dato['id'];
+                $_SESSION['usuario'] = $dato['id']; //ADJUDICAMOS A LA SESIÓN EL ID DEL USUARIO INICIADO.
             }
-
-
-            //$existe_conexion = $consulta->num_rows;
-
-            // if ($existe_conexion != 0) {
-            //session_start();
-
-
-
-            // Adjudicamos el id del usuario a la sesión.
-            // $consulta->fetch_assoc();
-            //echo " PISTA 2 " . $actor['id'];
-
-            //$_SESSION['usuario'] = $consulta;
-
-
-
-
 
             header("Location:principal-registrados.php");
         } else {
@@ -167,14 +147,36 @@ function recuperarDato($id)
     $consulta->execute();
 
     $resultado = $consulta->get_result();
-   
+
     $consulta->close();
     $conexion->close();
 
     return $resultado;
-
 }
 
+// RECUPERAR CITACIONES - - - - - - - - - - - - - - - - - - - -
+function mostrarCitas($id)
+{
+    include('conexion.php');
+
+    $sql = "SELECT fecha, id_vehiculo FROM cita WHERE id = ?";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bind_param("i", $id);
+    $consulta->execute();
+
+    $resultado = $consulta->get_result();
+
+    if ($resultado->num_rows > 0) {
+        
+        $consulta->close();
+        $conexion->close();
+    
+        return $resultado;
+    }else{
+        echo "No tiene ninguna citación."
+    }
+
+}
 
 function getCalendario()
 {
@@ -199,4 +201,30 @@ function getCalendario()
 
     /* cerrar conexión */
     $conexion->close();
+}
+
+// ACTUALIZAR DATOS - - - - - - - - - - - - - - - - - - - -
+function cambiarDatos()
+{
+    include('conexion.php');
+
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $correo = $_POST['correo'];
+    $contrasena = $_POST['contrasena'];
+    $telefono = $_POST['telefono'];
+    $direccion = $_POST['direccion'];
+
+    $sql = "UPDATE usuario SET nombre = ?, apellido = ?, correo = ?, contrasena = ?, telefono = ?, direccion = ? WHERE id = ?";
+
+    $consulta = $conexion->prepare($sql);
+    $consulta->bind_param("ssssisi", $nombre, $apellido, $correo, $contrasena, $telefono, $direccion, $id);
+    $consulta->execute();
+    
+    $consulta->close();
+    $conexion->close();
+
+    // Redirige a la página deseada.
+    header("Location:perfil.php?txt=t");
 }
