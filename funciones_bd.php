@@ -14,8 +14,13 @@ if (isset($_POST['nombre_funcion'])) {
             break;
         case 'confirmar_fecha':
             confirmarFecha();
+            break;
         case 'cambiar_datos':
             cambiarDatos();
+            break;
+        case 'introducir_comentario':
+            introducirComentario();
+            break;
     }
 }
 
@@ -39,8 +44,12 @@ function inicioSesion()
         $consulta->execute();
 
         $resultado = $consulta->get_result();   // Obtenemos un objeto
+
+        $consulta->close();
+        $conexion->close();
+
         if ($resultado->num_rows > 0) { //INICIAMOS SESIÓN.
-            
+
             session_start();
 
             while ($dato = $resultado->fetch_assoc()) {
@@ -56,13 +65,12 @@ function inicioSesion()
 
         }
     } else {
+
         echo "Cuenta no registrada";
         ?>
         <a href="index.php">Vovler</a>
 <?php
     }
-    $consulta->close();
-    $conexion->close();
 }
 
 // CERRAR SESIÓN - - - - - - - - - - - - - - - - - - - -
@@ -119,22 +127,31 @@ function confirmarFecha()
 
     // echo "PISTA -> " . $diaMes . $mes . $correo . "hola";
 
-    // Almacena la consulta SQL en una variable.
-    $sql = "INSERT INTO cita (fecha, id_usuario, id_vehiculo) VALUES (?,?,?)";
-    // Prepara una sentencia SQL para su ejecución.
+    $sql = "INSERT INTO vehiculo (matricula, id_usuario) VALUES (?, ?); ";
+
     $consulta = $conexion->prepare($sql);
-    // Agrega variables a una sentencia preparada como parámetros. 
-    // Las "s" hacen referencia a que vamos a pasar un String, cadenas. 
-    // Las "i", a int, enteros.
-    $consulta->bind_param("s,i,s", $fecha, $id_usuario, $id_vehiculo);
-    // Ejecuta la consulta a la BBDD.
+    $consulta->bind_param("si", $id_vehiculo, $id_usuario);
     $consulta->execute();
-    // Cierra sentencia y conexión.
+
     $consulta->close();
+    // $conexion->close();
+
+
+    $sql1 = "INSERT INTO cita (fecha, id_usuario, id_vehiculo) VALUES (?,?,?)";
+
+    $consulta1 = $conexion->prepare($sql1);
+    $consulta1->bind_param("sis", $fecha, $id_usuario, $id_vehiculo);
+    $consulta1->execute();
+
+
+    // Cierra sentencia y conexión.
+
+    $consulta1->close();
     $conexion->close();
 
+
     // Redirige a la página deseada.
-    header("Location:index.php");
+    header("Location:perfil.php");
 }
 // RECUPERAR NOMBRE - - - - - - - - - - - - - - - - - - - -
 function recuperarDato($id)
@@ -159,48 +176,40 @@ function mostrarCitas($id)
 {
     include('conexion.php');
 
-    $sql = "SELECT fecha, id_vehiculo FROM cita WHERE id = ?";
+    $sql = "SELECT fecha, id_vehiculo FROM cita WHERE id_usuario = ?";
     $consulta = $conexion->prepare($sql);
     $consulta->bind_param("i", $id);
     $consulta->execute();
 
     $resultado = $consulta->get_result();
 
-    if ($resultado->num_rows > 0) {
-        
-        $consulta->close();
-        $conexion->close();
-    
-        return $resultado;
-    }else{
-        echo "No tiene ninguna citación."
-    }
 
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
 }
 
-function getCalendario()
+// COMPROBAR SI EXISTE CITA - - - - - - - - - - - - - - - - - - - -
+function getFecha($fecha)
 {
     include('conexion.php');
 
-    if ($consulta = $conexion->prepare("SELECT dia, mes FROM calendario ORDER BY id_mes")) {
+    $sql = "SELECT fecha FROM cita WHERE fecha = ?";
+    $consulta = $conexion->prepare($sql);
+    $consulta->bind_param("s", $fecha);
+    $consulta->execute();
 
-        $consulta->execute();
-        //  Vincula variables a una sentencia preparada para el almacenamiento de resultados.
-        $consulta->bind_result($dia, $mes);
+    $resultado = $consulta->get_result();
 
-        /* obtener valor */
-        while ($consulta->fetch()) {
-
-            printf("%s %s\n", $dia . $mes);
-        }
-
-
-        /* cerrar sentencia */
-        $consulta->close();
-    }
-
-    /* cerrar conexión */
+    $consulta->close();
     $conexion->close();
+
+    if ($resultado->num_rows > 0) { // Comprobamos si nos devuelve un registro.
+        return true;
+    }else{
+        return false;
+    }
 }
 
 // ACTUALIZAR DATOS - - - - - - - - - - - - - - - - - - - -
@@ -221,10 +230,68 @@ function cambiarDatos()
     $consulta = $conexion->prepare($sql);
     $consulta->bind_param("ssssisi", $nombre, $apellido, $correo, $contrasena, $telefono, $direccion, $id);
     $consulta->execute();
-    
+
     $consulta->close();
     $conexion->close();
 
     // Redirige a la página deseada.
     header("Location:perfil.php?txt=t");
+}
+
+// MOSTRAR CITACIONES - - - - - - - - - - - - - - - - - - - -
+function mostrarCitaciones()
+{
+    include('conexion.php');
+
+    $sql = "SELECT fecha, id_usuario, id_vehiculo FROM cita ORDER BY id_usuario ASC";
+    $consulta = $conexion->prepare($sql);
+    $consulta->execute();
+
+    $resultado = $consulta->get_result();
+
+
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
+}
+
+// GUARDAR COMENTARIO - - - - - - - - - - - - - - - - - - - -
+function introducirComentario()
+{
+    include('conexion.php');
+
+    $nombre = $_POST['nombre'];
+    $texto = $_POST['texto'];
+    // Almacena la consulta SQL en una variable.
+    $sql = "INSERT INTO comentario (nombre, texto) VALUES (?,?)";
+    // Prepara una sentencia SQL para su ejecución.
+    $consulta = $conexion->prepare($sql);
+    // Agrega variables a una sentencia preparada como parámetros. 
+    $consulta->bind_param("ss", $nombre, $texto);
+    // Ejecuta la consulta a la BBDD.
+    $consulta->execute();
+    // Cierra sentencia y conexión.
+    $consulta->close();
+    $conexion->close();
+    // Redirige a la página deseada.
+    header("Location:info.php");
+}
+
+// MOSTRAR COMENTARIO - - - - - - - - - - - - - - - - - - - -
+function getComentarios()
+{
+    include('conexion.php');
+
+    $sql = "SELECT nombre, texto FROM comentario";
+    $consulta = $conexion->prepare($sql);
+    $consulta->execute();
+
+    $resultado = $consulta->get_result();
+
+
+    $consulta->close();
+    $conexion->close();
+
+    return $resultado;
 }

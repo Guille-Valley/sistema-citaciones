@@ -12,6 +12,11 @@ require_once 'menu.php' ?>
 ?>
 
     <div class="container">
+            <div class="col-4 m-3">
+                <h1>Taller Andrés Bueno</h1>
+                <p>Le damos la bienvenida a la página web de citaciones para el taller Andrés Bueno.</p>
+                <p>Inicie sesión para acceder.</p>
+            </div>
         <div class="row justify-content-md-center">
             <!-- Background image -->
             <div class="row" style="background-image: url('img/taller01.jpg'); opacity:0.7; height:100%;">

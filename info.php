@@ -1,8 +1,9 @@
-<?php include('cabecera.php'); ?>
+<?php include('cabecera.php');
+include('funciones_bd.php'); ?>
 
 <?php
 // MENU - - - - - - - - - - - - - - - - - - - -
-require_once 'menu.php' ?>
+require_once 'menu.php'; ?>
 
 <div class="container">
     <div class="row text-center">
@@ -39,17 +40,48 @@ require_once 'menu.php' ?>
                 <img src="img/taller03.jpg" width="75%" class="rounded" alt="...">
             </div>
             <div class="col-3">
-            <img src="img/taller02.jpg" width="75%" class="rounded" alt="...">
+                <img src="img/taller02.jpg" width="75%" class="rounded" alt="...">
             </div>
             <div class="col-3">
-            <img src="img/taller04.jpg" width="75%" class="rounded" alt="...">
+                <img src="img/taller04.jpg" width="75%" class="rounded" alt="...">
             </div>
             <div class="col-2">
-            <img src="img/taller05.jpg" width="75%" class="rounded" alt="...">
+                <img src="img/taller05.jpg" width="75%" class="rounded" alt="...">
             </div>
         </div>
     </div>
     <div class="col bg-light">En nuestros talleres multimarca, contamos con una amplia experiencia en reparaciones completas de automóvil, somos una empresa familiar en el sector automovilístico.
         Trabajamos con profesionalidad de calidad y garantía, por lo que tenemos una amplia cartera de clientes.</div>
+
+    <div class="container mt-5">
+        <h3>Introducir comentarios:</h3>
+        <form action="funciones_bd.php" method="post">
+            <input type="hidden" name="nombre_funcion" value="introducir_comentario">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" name="nombre">
+            </div>
+            <div class="mb-3">
+                <textarea name="texto" id="texto" cols="30" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">¡Enviar comentario!</button>
+        </form>
+    </div>
+    <h4>Comentarios:</h4>
+    <?php
+    $imprimirComentario = getComentarios();
+    if ($imprimirComentario->num_rows > 0) {
+        while ($claveComentario = $imprimirComentario->fetch_assoc()) {
+            echo "<b>Nombre:</b> " . $claveComentario['nombre'];
+            echo "<br>";
+            echo "<b>Comentario:</b><br> " . $claveComentario['texto'];
+            echo "<hr><br>";
+        }
+    } else {
+        echo "Todavía no hay ningún comentario.";
+    }
+    ?>
+
+
 
     <?php include('pie-pagina.php'); ?>
